@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhaarani T — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #F1EFE8;
+    --border: #D3D1C7;
+    --muted: #B4B2A9;
+    --text-secondary: #5F5E5A;
+    --text: #2C2C2A;
+    --accent: #2C2C2A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(250,250,249,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* LAYOUT */
+  main { padding-top: 56px; }
+
+  section {
+    padding: 5rem 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  section.visible { opacity: 1; transform: none; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* HERO */
+  #hero {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    position: relative;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .avatar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 32px;
+    color: var(--text);
+    position: relative;
+  }
+  .avatar::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed var(--border);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    color: var(--text);
+    display: block;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-content {}
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .hero-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .hero-role {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .hero-bio {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+  }
+  .hero-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .link-btn.primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .link-btn.primary:hover { background: #444; }
+  .link-btn.secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .link-btn.secondary:hover { background: var(--border); }
+
+  .hero-location {
+    margin-top: 1.5rem;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* EDUCATION */
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    align-items: start;
+  }
+  .edu-degree {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .edu-school { font-size: 13px; color: var(--text-secondary); }
+  .edu-year { font-size: 12px; color: var(--muted); text-align: right; white-space: nowrap; }
+  .edu-score {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: right;
+  }
+  .edu-score-lbl { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .skill-group-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .skill-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card:hover { border-color: var(--text); background: #eeece5; }
+  .project-card.featured { grid-column: span 2; }
+  .project-icon {
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .project-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .project-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .project-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -1.5rem;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    transform: translateX(-4px);
+  }
+  .timeline-dot.active { border-color: var(--text); background: var(--text); }
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-role {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .timeline-period {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .timeline-company {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+  .timeline-points { list-style: none; }
+  .timeline-points li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 3px 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .timeline-points li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  /* ACHIEVEMENTS */
+  .achieve-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .achieve-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .achieve-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .achieve-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .achieve-detail { font-size: 12px; color: var(--text-secondary); }
+
+  /* INTERESTS */
+  .interest-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .interest-tag {
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  /* CONTACT */
+  #contact {
+    border-top: 1px solid var(--border);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .contact-intro {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .contact-sub { font-size: 14px; color: var(--text-secondary); }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: var(--text); background: #eeece5; color: var(--text); }
+  .contact-link-icon { font-size: 16px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* HIGHLIGHT ROW */
+  .highlight-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .highlight-chip {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 4px;
+    background: var(--text);
+    color: var(--bg);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 3.5rem 1.25rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .avatar-block { flex-direction: row; justify-content: flex-start; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#hero">Dhaarani T</a>
+  <ul class="nav-links">
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div class="avatar-block">
+        <div class="avatar">DT</div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">9.01</span>
+            <span class="stat-lbl">CGPA</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">5+</span>
+            <span class="stat-lbl">Projects</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">3</span>
+            <span class="stat-lbl">Internships</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">ECE Student · 3rd Year · M. Kumarasamy College of Engineering</div>
+        <h1 class="hero-name">Dhaarani T</h1>
+        <p class="hero-role">Aspiring Software & Embedded Systems Engineer</p>
+        <p class="hero-bio">
+          Electronics and Communication Engineering student passionate about software development, IoT, Embedded Systems, and cloud technologies. Building practical real-world solutions — from database-driven applications to IoT-enabled smart systems. Currently deepening expertise through VLSI internship experience and Java & Data Structures learning.
+        </p>
+        <div class="hero-links">
+          <a href="mailto:dhaaranithamizh@gmail.com" class="link-btn primary">✉ Email me</a>
+          <a href="https://www.linkedin.com/in/dhaarani-thamizharasu-514571293" target="_blank" class="link-btn secondary">LinkedIn</a>
+          <a href="https://github.com/dhaaraniThamizharasu" target="_blank" class="link-btn secondary">GitHub</a>
+        </div>
+        <div class="hero-location">📍 Karur, Tamil Nadu</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">Education</div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Bachelor of Engineering — Electronics & Communication</div>
+        <div class="edu-school">M. Kumarasamy College of Engineering, Karur</div>
+      </div>
+      <div>
+        <div class="edu-score">9.01</div>
+        <div class="edu-score-lbl">CGPA</div>
+        <div class="edu-year" style="margin-top:4px;">2023 – 2027</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Higher Secondary Certificate</div>
+        <div class="edu-school">Kongu Vellalar Matric Hr. Sec. School</div>
+      </div>
+      <div>
+        <div class="edu-score">96%</div>
+        <div class="edu-score-lbl">Score</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Programming</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">C</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Core CS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Data Structures</span>
+          <span class="skill-tag">DBMS</span>
+          <span class="skill-tag">OOP Concepts</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud & Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS (Basics)</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">GitHub</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Embedded & IoT</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ESP32</span>
+          <span class="skill-tag">Sensors</span>
+          <span class="skill-tag">Blynk</span>
+          <span class="skill-tag">Microcontrollers</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">VLSI</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Verilog</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="project-badge">Patent-oriented</div>
+        <div class="project-icon">🔌</div>
+        <div class="project-title">IoT-Based Universal Smart Charger</div>
+        <div class="project-desc">Adaptive USB-C PD charger with real-time voltage/current monitoring via INA219, OLED display, IoT cloud monitoring via Blynk, and automated safety cut-off. Patent-oriented design using STUSB4500 PD negotiation and LTC3780 controller.</div>
+        <div class="project-tags">
+          <span class="project-tag">ESP32</span>
+          <span class="project-tag">STUSB4500</span>
+          <span class="project-tag">LTC3780</span>
+          <span class="project-tag">INA219</span>
+          <span class="project-tag">Blynk</span>
+          <span class="project-tag">OLED</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏥</div>
+        <div class="project-title">MEDISYS Hospital Management System</div>
+        <div class="project-desc">Database system managing patients, doctors, appointments, billing, and medical history. Reduced redundancy via normalization and improved data retrieval speed.</div>
+        <div class="project-tags">
+          <span class="project-tag">SQL</span>
+          <span class="project-tag">DBMS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🖨️</div>
+        <div class="project-title">Document Print Autonomous Intelligence System</div>
+        <div class="project-desc">Automated print request system with secure printing, zero data footprint after print, and strong user privacy focus. No stored data post-job.</div>
+        <div class="project-tags">
+          <span class="project-tag">Automation</span>
+          <span class="project-tag">Privacy</span>
+          <span class="project-tag">Security</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">💊</div>
+        <div class="project-title">MediTray Smart Pill Dispenser</div>
+        <div class="project-desc">IoT-enabled automated pill dispenser with timed reminders, missed-dose notifications, and automated dispensing alerts.</div>
+        <div class="project-tags">
+          <span class="project-tag">IoT</span>
+          <span class="project-tag">Embedded</span>
+          <span class="project-tag">Automation</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">⚠️</div>
+        <div class="project-title">Gas Leakage Detection System</div>
+        <div class="project-desc">Gas sensing system with LED alert, buzzer notification, and optional IoT push notification for remote monitoring and safety.</div>
+        <div class="project-tags">
+          <span class="project-tag">Gas Sensor</span>
+          <span class="project-tag">ESP32</span>
+          <span class="project-tag">IoT</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Internship Experience</div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot active"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">VLSI Design Intern</div>
+          <div class="timeline-period">Present</div>
+        </div>
+        <div class="timeline-company">Tessolve Semiconductor</div>
+        <ul class="timeline-points">
+          <li>Digital design and verification using Verilog / SystemVerilog</li>
+          <li>Developed and simulated RTL modules — flip-flops, counters, FSMs</li>
+          <li>Functional verification through testbenches and waveform analysis</li>
+          <li>Debugging timing and logic issues using ModelSim / QuestaSim</li>
+          <li>Exposure to ASIC design flow and industry-standard EDA tools</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Embedded Systems Intern</div>
+          <div class="timeline-period">Completed</div>
+        </div>
+        <div class="timeline-company">Texro</div>
+        <ul class="timeline-points">
+          <li>Sensor interfacing and firmware testing</li>
+          <li>PCB debugging and hardware validation</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">IoT in Robotics Intern</div>
+          <div class="timeline-period">Completed</div>
+        </div>
+        <div class="timeline-company">NSIC</div>
+        <ul class="timeline-points">
+          <li>Automation fundamentals and IoT integration</li>
+          <li>Sensor communication protocols</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-label">Achievements & Certifications</div>
+
+    <div class="highlight-row">
+      <span class="highlight-chip">9.01 CGPA</span>
+      <span class="highlight-chip">5+ Projects</span>
+      <span class="highlight-chip">Tessolve VLSI Intern</span>
+      <span class="highlight-chip">NPTEL Elite ×2</span>
+    </div>
+
+    <div class="achieve-grid">
+      <div class="achieve-card">
+        <div class="achieve-icon">🏅</div>
+        <div>
+          <div class="achieve-title">NPTEL Cloud Computing</div>
+          <div class="achieve-detail">Elite certification — IIT/NIT program</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🏅</div>
+        <div>
+          <div class="achieve-title">NPTEL Cybersecurity</div>
+          <div class="achieve-detail">Elite certification — IIT/NIT program</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">✅</div>
+        <div>
+          <div class="achieve-title">HackerRank Java Basic</div>
+          <div class="achieve-detail">Verified Java programming proficiency</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🎓</div>
+        <div>
+          <div class="achieve-title">9.01 CGPA</div>
+          <div class="achieve-detail">Maintained throughout BE — ECE program</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">📐</div>
+        <div>
+          <div class="achieve-title">96% in Higher Secondary</div>
+          <div class="achieve-detail">Kongu Vellalar Matric Hr. Sec. School</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🔬</div>
+        <div>
+          <div class="achieve-title">Hands-on Multi-Domain Experience</div>
+          <div class="achieve-detail">IoT + VLSI + DBMS + Java across 5+ projects</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label" style="margin-bottom:1rem;">Participations</div>
+    <div class="achieve-grid">
+      <div class="achieve-card">
+        <div class="achieve-icon">🎤</div>
+        <div>
+          <div class="achieve-title">Technical Symposium</div>
+          <div class="achieve-detail">Presented project on smart embedded systems</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🛠️</div>
+        <div>
+          <div class="achieve-title">IoT & Embedded Systems Workshop</div>
+          <div class="achieve-detail">Hands-on training in sensor & firmware</div>
+        </div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">💻</div>
+        <div>
+          <div class="achieve-title">Coding Assessments</div>
+          <div class="achieve-detail">Java problem solving competitions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESTS -->
+  <section id="interests">
+    <div class="section-label">Areas of Interest</div>
+    <div style="margin-bottom: 1rem; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;">Technical</div>
+    <div class="interest-row" style="margin-bottom: 1.5rem;">
+      <span class="interest-tag">Software Development</span>
+      <span class="interest-tag">Java Programming</span>
+      <span class="interest-tag">Data Structures</span>
+      <span class="interest-tag">Cloud Computing</span>
+      <span class="interest-tag">IoT Systems</span>
+      <span class="interest-tag">Embedded Systems</span>
+      <span class="interest-tag">VLSI Design</span>
+    </div>
+    <div style="margin-bottom: 1rem; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;">Personal</div>
+    <div class="interest-row">
+      <span class="interest-tag">♟ Chess</span>
+      <span class="interest-tag">✏️ Drawing</span>
+      <span class="interest-tag">🔍 Learning new technologies</span>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label" style="margin-bottom:1rem;">Strengths</div>
+    <div class="interest-row">
+      <span class="interest-tag">Problem Solving</span>
+      <span class="interest-tag">Quick Learner</span>
+      <span class="interest-tag">Team Collaboration</span>
+      <span class="interest-tag">Communication</span>
+      <span class="interest-tag">Leadership</span>
+      <span class="interest-tag">Time Management</span>
+      <span class="interest-tag">Adaptability</span>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-intro">Let's build something together.</div>
+        <div class="contact-sub">I'm open to internship opportunities, project collaborations, and conversations about software, IoT, or VLSI. Feel free to reach out.</div>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:dhaaranithamizh@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <span>dhaaranithamizh@gmail.com</span>
+        </a>
+        <a href="https://www.linkedin.com/in/dhaarani-thamizharasu-514571293" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          <span>linkedin.com/in/dhaarani-thamizharasu</span>
+        </a>
+        <a href="https://github.com/dhaaraniThamizharasu" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💻</span>
+          <span>github.com/dhaaraniThamizharasu</span>
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <span class="contact-link-icon">📍</span>
+          <span>Karur, Tamil Nadu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 Dhaarani T · Designed with intention
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+  // Hero visible on load
+  document.querySelector('#hero').classList.add('visible');
+</script>
+</body>
+</html>
